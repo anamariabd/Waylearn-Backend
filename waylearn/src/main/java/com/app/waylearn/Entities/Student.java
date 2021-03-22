@@ -1,67 +1,36 @@
 package com.app.waylearn.Entities;
 
+
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="Student")
-public class Student {
-	private @Id @GeneratedValue Long id; 
+@Entity(name="STUDENTS")
+@PrimaryKeyJoinColumn(name="user_id")
+public class Student extends User{
 	
-	@Column
-	private String firstName;
+	private String semestre;
+
 	
-	@Column
-	private String lastName;
-
-	private Student() {}
-
-	public Student(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
+	public Student() {
+		
+	}
+	
+	public String getSemestre() {
+		return semestre;
 	}
 
-	@Override
-	public int hashCode() {
-
-		return Objects.hash(id, firstName, lastName);
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
 	}
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	@Override
-	public String toString() {
-		return "Estudiante{" +
-			"id=" + id +
-			", firstName='" + firstName + '\'' +
-			", lastName='" + lastName +'\'' +
-			'}';
-	}
 }

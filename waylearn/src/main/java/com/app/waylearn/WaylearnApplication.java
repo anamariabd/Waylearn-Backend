@@ -13,10 +13,7 @@ public class WaylearnApplication {
 	@Autowired
 	private StudentRepository repositorio;
 
-	public void run(String... strings) throws Exception {
-		this.repositorio.save(new Student("Fredy", "Caballero"));
-	}
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(WaylearnApplication.class, args);
 
