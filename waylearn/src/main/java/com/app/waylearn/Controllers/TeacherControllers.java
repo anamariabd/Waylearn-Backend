@@ -50,7 +50,6 @@ public class TeacherControllers {
 	@PostMapping("/registro")
 	public Teacher createTeacher(@RequestBody Teacher teacher ){
 		
-		
 		 return servicesT.save(teacher);
 		
 	}
