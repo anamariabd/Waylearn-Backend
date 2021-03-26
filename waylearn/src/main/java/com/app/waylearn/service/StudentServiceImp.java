@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.waylearn.Entities.Role;
@@ -19,11 +20,20 @@ public class StudentServiceImp implements StudentService{
 	@Autowired
 	private RoleService repoRol;
 	
+	
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Override
 	public Student save(Student student) {
-		Role rol = repoRol.findByRol("student");
-		student.setRol(rol);
-		return  repoStudent.save(student);
+		try {
+			Role rol = repoRol.findByRol("student");
+			student.setRol(rol);
+			String aux = bCryptPasswordEncoder.encode(student.getPassword());
+			student.setPassword(aux);
+			return  repoStudent.save(student);
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
