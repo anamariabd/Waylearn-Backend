@@ -17,19 +17,12 @@ public class StudentServiceImp implements StudentService{
 	@Autowired
 	private StudentRepository repoStudent;
 	
-	@Autowired
-	private RoleService repoRol;
-	
-	
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	
 	@Override
 	public Student save(Student student) {
 		try {
-			Role rol = repoRol.findByRol("student");
-			student.setRol(rol);
-			String aux = bCryptPasswordEncoder.encode(student.getPassword());
-			student.setPassword(aux);
+		
 			return  repoStudent.save(student);
 		}catch (Exception e) {
 			return null;

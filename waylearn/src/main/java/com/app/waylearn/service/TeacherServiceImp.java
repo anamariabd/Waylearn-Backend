@@ -17,18 +17,10 @@ public class TeacherServiceImp implements TeacherService{
 	@Autowired
 	private TeacherRepository repoTeacher;
 	
-	@Autowired
-	private RoleService repoRol;
-	
 
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
 	public Teacher save(Teacher teacher) {
-		Role rol = repoRol.findByRol("teacher");
-		String passwordEncoder = bCryptPasswordEncoder.encode(teacher.getPassword());
-		teacher.setRol(rol);
-		teacher.setPassword(passwordEncoder);
 		return repoTeacher.save(teacher);
 	}
 
