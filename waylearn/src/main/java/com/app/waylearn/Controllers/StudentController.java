@@ -24,7 +24,7 @@ import com.app.waylearn.service.UserService;
 
 import payload.MessageResponse;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 
 @RestController
 

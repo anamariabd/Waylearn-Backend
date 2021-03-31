@@ -27,7 +27,7 @@ import payload.MessageResponse;
 
 
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 
 @RequestMapping(path="/api/v1/teacher")
