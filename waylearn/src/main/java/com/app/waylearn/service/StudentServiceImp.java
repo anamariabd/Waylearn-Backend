@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.waylearn.Entities.Role;
@@ -16,14 +17,16 @@ public class StudentServiceImp implements StudentService{
 	@Autowired
 	private StudentRepository repoStudent;
 	
-	@Autowired
-	private RoleService repoRol;
+
 	
 	@Override
 	public Student save(Student student) {
-		Role rol = repoRol.findByRol("student");
-		student.setRol(rol);
-		return  repoStudent.save(student);
+		try {
+		
+			return  repoStudent.save(student);
+		}catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override

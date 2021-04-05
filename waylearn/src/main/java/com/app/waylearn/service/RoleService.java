@@ -13,5 +13,5 @@ public interface RoleService {
 	public List<Role> findAll();
 	
 	
-	public Role findByRol(String rol);
+	public Role findByRol(String rol) ;
 }
