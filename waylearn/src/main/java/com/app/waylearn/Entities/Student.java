@@ -18,16 +18,34 @@ import javax.persistence.Table;
 public class Student extends User{
 	
 	private String semestre;
-
+	
+	
+	@ManyToOne
+	private Group group;
 	
 	public Student() {
 		super();
 	}
 	
+	
+	
+	public Group getGroup() {
+		return group;
+	}
+
+
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+
+
 	public String getSemestre() {
 		return semestre;
 	}
 
+	
 	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
