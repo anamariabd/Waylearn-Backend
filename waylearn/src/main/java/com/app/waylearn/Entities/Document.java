@@ -11,18 +11,39 @@ public class Document {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private String name;
+	
+	private String hash;
+	
+	private String ext;
+	
+	public String getHash() {
+		return hash;
+	}
+
+	public void setHash(String hash) {
+		this.hash = hash;
+	}
+
+	public String getExt() {
+		return ext;
+	}
+
+	public void setExt(String ext) {
+		this.ext = ext;
+	}
+
 	public Document() {
 		super();
 	}
-
+	
 	public Document(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	private String name;
-
+	
 	public Long getId() {
 		return id;
 	}
