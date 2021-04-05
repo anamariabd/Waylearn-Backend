@@ -50,7 +50,7 @@ public class SecurityCofiguration extends  WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/v1/**").permitAll()
-			.antMatchers("/api/upload/file").permitAll()
+			.antMatchers("/api/upload/**").permitAll()//Editar para restringir el acceso
 			.antMatchers("/api/auth/login").permitAll()
 			.anyRequest().authenticated();
 

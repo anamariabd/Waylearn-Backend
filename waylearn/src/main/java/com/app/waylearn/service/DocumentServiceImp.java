@@ -1,13 +1,19 @@
 package com.app.waylearn.service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.stream.Stream;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,24 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class DocumentServiceImp implements DocumentService {
 
 	private final Path rootFolder = Paths.get("uploads");
-	private Date fecha = new Date();
-	
-	private String day = Integer.toString(fecha.getDay()+1);
-	private String month = Integer.toString(fecha.getMonth()+1);
-	private String year = Integer.toString(fecha.getYear()+1900);
-	private String hour = Integer.toString(fecha.getHours());
-	private String minute = Integer.toString(fecha.getMinutes());
-	private String second = Integer.toString(fecha.getSeconds());
-	
-	private String Name = fecha.toString();
-	
-//	String name = fechaHora.format(fecha.getTime());
-	
-	String name = day+"-"+month+"-"+year+"-"+hour+"-"+minute+"-"+second;
-	
+
 	@Override
 	public void save(MultipartFile file) throws Exception {
-
+		Date fecha = new Date();
+		String name = Long.toString(fecha.getTime());
 		String fileName = file.getOriginalFilename();
 		String ext = "";
 		
@@ -46,9 +39,32 @@ public class DocumentServiceImp implements DocumentService {
 	}
 
 	@Override
-	public void load(String name) throws Exception {
-		// TODO Auto-generated method stub
-	
+	public Resource load(String name) throws Exception {
+		try {
+			Path file = rootFolder.resolve(name);
+			Resource resource = new UrlResource(file.toUri());
+			if(resource.exists() || resource.isReadable()) {
+				return resource;
+			}else {
+				throw new RuntimeException("No se puede leer el archivo");
+			}
+			
+		}catch (Exception e) {
+			throw new Exception("Error: " + e.getMessage());
+		}
 	}
 
+	
+	
+	@Override
+	public Stream<Path> loadAll(){
+		try {
+			return Files.walk(this.rootFolder, 1).filter(path->!path.equals(this.rootFolder))
+					.map(this.rootFolder::relativize);
+			
+		}catch (RuntimeException | IOException e) {
+			throw new RuntimeException("No se pueden cargar los archivos");
+		}
+	}
+    
 }
