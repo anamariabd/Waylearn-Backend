@@ -1,13 +1,18 @@
 package com.app.waylearn.Controllers;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.hateoas.config.MediaTypeConfigurationProvider;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,16 +22,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.app.waylearn.service.DocumentService;
 
+import jdk.jfr.ContentType;
 import payload.FileData;
 import payload.MessageResponse;
 
 @RestController
 @RequestMapping(path = "api/upload")
 public class DocumentController {
-
+	static final Logger log = org.slf4j.LoggerFactory.getLogger(DocumentController.class);
 	
 	@Autowired
 	private DocumentService documentServices;
@@ -45,8 +52,23 @@ public class DocumentController {
      public ResponseEntity<?> getFile(@PathVariable String filename){
 	  try {
 		  Resource file = documentServices.load(filename);
-	        return ResponseEntity.ok().header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
-	                "attachment; filename=\""+file.getFilename() + "\"").body(file);
+		  InputStream in = new FileInputStream(file.getFile());
+		  String fileName = file.getFilename();
+		  String ext = "";
+		  int i = fileName.lastIndexOf('.');
+		  ext = fileName.substring(++i);
+		  MediaType extension = types(ext);
+	        return ResponseEntity.ok()
+	        		.contentLength(file.contentLength())
+	        		.contentType(new MediaType(extension)) // Tipo de contenido a retornar.
+	        		.body( new InputStreamResource(file.getInputStream()));
+	        
+	        		
+	        		/*
+	        		 * file.getFilename().substring(file.getFilename().lastIndexOf("."))
+	        		 * 
+	        		 * header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+	                "attachment; filename=\""+file.getFilename() + "\"").body(file);*/
 	  }catch (Exception e) {
 		throw new RuntimeException("Error :" + e.getMessage());
 	}
@@ -70,10 +92,27 @@ public class DocumentController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error al buscar datos");
 		}
 		
-		
-		
 	}
 	
 	
+	public MediaType types(String extension) {
+		MediaType auxiliar = null; 
+		log.info("La entrada es "+extension );
+		switch (extension) {
+		case "pdf":
+			 auxiliar = MediaType.APPLICATION_PDF;
+			break;
+		case "jpg":
+			auxiliar = MediaType.IMAGE_JPEG;
+			break;
+		case "mp4":
+			auxiliar = MediaType.APPLICATION_OCTET_STREAM;
+			break;
+		default:
+			
+			break;
+		} 
+		return auxiliar;
+	}
 	
 }
