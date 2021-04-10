@@ -1,5 +1,6 @@
 package com.app.waylearn.Entities;
 
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,32 +10,41 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
-public class Group {
+public class Grupo {
  
-@Id
+ @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
  private Long id;
 
- @Column(nullable = false)
- private Integer number;
+@Column(name="Number_Group")
+ private String number;
+ 
+ 
+ public Grupo() {
+		super();
+ }
  
  @OneToMany(cascade = CascadeType.ALL,mappedBy = "group"  )
  private Set<Student> ListStudent;
  
-
- @ManyToOne
+ @JsonIgnore
+ @ManyToOne(fetch = FetchType.LAZY)
+ @JoinColumn(name = "group_teacher")
  private Teacher teacher;
  
  @OneToMany(mappedBy = "groupe",fetch = FetchType.LAZY)
  private Set<Subject> subjects;
  
  
- public Group(Long id, Integer number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects) {
+ public Grupo(Long id, String number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -43,19 +53,19 @@ public class Group {
 		this.subjects = subjects;
 	}
 
-public Group() {
-	super();
-}
 
+ public void setId(Long id) {
+		this.id = id;
+	}
 public Long getId() {
 	return id;
 }
 
-public Integer getNumber() {
+public String getNumber() {
 	return number;
 }
 
-public void setNumber(Integer number) {
+public void setNumber(String number) {
 	this.number = number;
 }
 
@@ -83,16 +93,8 @@ public void setSubjects(Set<Subject> subjects) {
 	this.subjects = subjects;
 }
 
-public void setId(Long id) {
-	this.id = id;
-}
 
 
 
-
- 
- 
- 
- 
  
 }

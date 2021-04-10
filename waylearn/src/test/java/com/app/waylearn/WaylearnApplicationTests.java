@@ -38,7 +38,6 @@ class WaylearnApplicationTests {
 		userT.setFirstName("ana");
 		userT.setLastName("Buenahora");
 		userT.setPassword("123");
-		userT.setProfession("ieniera");
 		userT.setRol(rol);
 		Teacher aux = teacherRepo.save(userT);
 		

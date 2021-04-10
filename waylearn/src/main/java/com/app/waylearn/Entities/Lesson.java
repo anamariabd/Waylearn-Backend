@@ -27,6 +27,7 @@ public class Lesson {
 
 	
 	@ManyToOne
+	@JoinColumn(name = "lessons_id")
 	private Subject subject;
 	
 	

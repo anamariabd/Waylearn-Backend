@@ -12,31 +12,27 @@ import javax.persistence.Id;
 @PrimaryKeyJoinColumn(name="user_id")
 public class Teacher extends User {
 	
-	
+	@Column(name = "Group_teacher")
 	@OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
-	private Set<Group> groups;
+	private Set<Grupo> groups;
 	
 	
-	@Column(nullable = false, unique = true)
+	@Column(name ="CC",nullable = false, unique = true)
 	private Long cc;
 	
-	private String Profession;
 	
+	public Teacher() {
+		super();
 	
+	}
 	
-	public Set<Group> getGroups() {
+	public Set<Grupo> getGroups() {
 		return groups;
 	}
 
 
-	public void setGroups(Set<Group> groups) {
+	public void setGroups(Set<Grupo> groups) {
 		this.groups = groups;
-	}
-
-
-	public Teacher() {
-		super();
-	
 	}
 
 
@@ -52,12 +48,5 @@ public class Teacher extends User {
 
 	
 
-	public String getProfession() {
-		return Profession;
-	}
-
-	public void setProfession(String profession) {
-		Profession = profession;
-	}
 	
 }

@@ -31,8 +31,19 @@ public class Subject {
 	private Set<Lesson> lessons;
 	
 	@ManyToOne
-	private Group groupe;
+	@JoinColumn(name = "Subject_group")
+	private Grupo groupe;
 	
+	public Set<Lesson> getLessons() {
+		return lessons;
+	}
+
+
+	public void setLessons(Set<Lesson> lessons) {
+		this.lessons = lessons;
+	}
+
+
 	public Subject(Long id, String name) {
 		super();
 		this.id = id;
@@ -40,12 +51,12 @@ public class Subject {
 	}
 
 
-	public Group getGroupe() {
+	public Grupo getGroupe() {
 		return groupe;
 	}
 
 
-	public void setGroupe(Group group) {
+	public void setGroupe(Grupo group) {
 		this.groupe = group;
 	}
 

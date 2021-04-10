@@ -3,6 +3,7 @@ package com.app.waylearn.Entities;
 
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,9 +20,9 @@ public class Student extends User{
 	
 	private String semestre;
 	
-	
-	@ManyToOne
-	private Group group;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "Student_Group")
+	private Grupo group;
 	
 	public Student() {
 		super();
@@ -29,13 +30,13 @@ public class Student extends User{
 	
 	
 	
-	public Group getGroup() {
+	public Grupo getGroup() {
 		return group;
 	}
 
 
 
-	public void setGroup(Group group) {
+	public void setGroup(Grupo group) {
 		this.group = group;
 	}
 

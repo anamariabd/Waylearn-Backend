@@ -33,6 +33,7 @@ import payload.MessageResponse;
 @RestController
 @RequestMapping(path = "api/upload")
 public class DocumentController {
+	
 	static final Logger log = org.slf4j.LoggerFactory.getLogger(DocumentController.class);
 	
 	@Autowired
@@ -65,10 +66,9 @@ public class DocumentController {
 	        
 	        		
 	        		/*
-	        		 * file.getFilename().substring(file.getFilename().lastIndexOf("."))
-	        		 * 
-	        		 * header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
-	                "attachment; filename=\""+file.getFilename() + "\"").body(file);*/
+	        		  	header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+	                	"attachment; filename=\""+file.getFilename() + "\"").body(file); 
+	                */
 	  }catch (Exception e) {
 		throw new RuntimeException("Error :" + e.getMessage());
 	}
@@ -109,7 +109,7 @@ public class DocumentController {
 			auxiliar = MediaType.APPLICATION_OCTET_STREAM;
 			break;
 		default:
-			
+			auxiliar  = MediaType.TEXT_PLAIN;
 			break;
 		} 
 		return auxiliar;

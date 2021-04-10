@@ -13,4 +13,6 @@ public interface DocumentService {
 	public Resource  load (String name) throws Exception;
 	
 	public Stream<Path> loadAll() throws Exception;
+	
+	
 }

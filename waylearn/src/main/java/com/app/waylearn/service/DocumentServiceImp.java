@@ -1,5 +1,6 @@
 package com.app.waylearn.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -12,15 +13,21 @@ import java.util.stream.Stream;
 
 import javax.management.RuntimeErrorException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.waylearn.WaylearnApplication;
+
 @Service
 public class DocumentServiceImp implements DocumentService {
 
-	private final Path rootFolder = Paths.get("uploads");
+
+
+	private final Path rootFolder = Paths.get("src/main/resources/storage");
 
 	@Override
 	public void save(MultipartFile file) throws Exception {

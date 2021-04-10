@@ -51,6 +51,7 @@ public class SecurityCofiguration extends  WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/v1/**").permitAll()
 			.antMatchers("/api/upload/**").permitAll()//Editar para restringir el acceso
+			.antMatchers("/api/group/**").permitAll()
 			.antMatchers("/api/auth/login").permitAll()
 			.anyRequest().authenticated();
 
