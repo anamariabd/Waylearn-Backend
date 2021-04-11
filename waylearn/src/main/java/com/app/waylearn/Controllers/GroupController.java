@@ -27,7 +27,7 @@ import payload.MessageResponse;
 import payload.RequestGroup;
 
 @RestController
-@RequestMapping(path = "api/group")
+@RequestMapping(path = "/api/group")
 public class GroupController {
 	private static Logger log = LoggerFactory.getLogger(GroupController.class);
 	@Autowired
@@ -60,14 +60,17 @@ public class GroupController {
 	}
 	
 	
-	@GetMapping("/get/{id}")  //							api/group/get/1
+	@GetMapping("/{id}")  						
 	public ResponseEntity<?> getGrupo(@PathVariable(name = "id") Long id ) {
+		
 		Grupo grp = groupServices.findById(id);
+		
 		if(grp == null) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error"));
 		}
+		
 		return ResponseEntity.ok(grp);
 	}
 	

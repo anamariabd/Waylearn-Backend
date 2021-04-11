@@ -1,5 +1,6 @@
 package com.app.waylearn.Entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -15,12 +16,14 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity(name="USER")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email") )
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements Serializable{
 	@Id 
 	@GeneratedValue(strategy  = GenerationType.AUTO)
 	private  Long id; 
@@ -31,6 +34,7 @@ public class User {
 	
 	private String lastName;
 	
+
 	@NotNull
 	//@Min(value = 8)
 	private String password;

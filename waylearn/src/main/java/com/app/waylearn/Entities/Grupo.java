@@ -1,6 +1,7 @@
 package com.app.waylearn.Entities;
 
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,11 +15,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 @Entity
-public class Grupo {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Grupo implements Serializable {
  
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,9 +41,10 @@ public class Grupo {
  @OneToMany(cascade = CascadeType.ALL,mappedBy = "group"  )
  private Set<Student> ListStudent;
  
- @JsonIgnore
+ 
  @ManyToOne(fetch = FetchType.LAZY)
  @JoinColumn(name = "group_teacher")
+ @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//necesario para evitar error 500
  private Teacher teacher;
  
  @OneToMany(mappedBy = "groupe",fetch = FetchType.LAZY)

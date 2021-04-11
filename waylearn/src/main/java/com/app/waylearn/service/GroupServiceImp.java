@@ -27,9 +27,11 @@ public class GroupServiceImp implements GroupService {
 	@Override
 	public Grupo findById(Long id) {
 	  Optional<Grupo> grp = groupRepository.findById(id);
+	  
 	  if(!grp.isPresent()) {
 		  return null;
 	  }
+	
 	  return grp.get();
 	}
 

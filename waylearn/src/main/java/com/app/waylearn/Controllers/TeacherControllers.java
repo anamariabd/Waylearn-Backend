@@ -49,12 +49,16 @@ public class TeacherControllers {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@GetMapping("/{id}")
-	public Teacher getTeacher(@PathVariable Long id) {
-		try {
-			 return servicesT.findById(id);
-		}catch (Exception e) {
-			return null;
-		}
+	public ResponseEntity<?> getTeacher(@PathVariable Long id) {
+		
+			Teacher teacher  =  servicesT.findById(id);
+			
+			if(teacher == null) {
+				return ResponseEntity.badRequest().body(new MessageResponse("Error no se logró encontrar el usuario"));
+			}
+			
+			return	ResponseEntity.ok(teacher);
+		
 		
 		
 	}
