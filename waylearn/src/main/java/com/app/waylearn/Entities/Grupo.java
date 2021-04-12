@@ -38,7 +38,7 @@ public class Grupo implements Serializable {
 		super();
  }
  
- @OneToMany(cascade = CascadeType.ALL,mappedBy = "group"  )
+ @OneToMany(cascade = CascadeType.ALL,mappedBy = "group" ,fetch = FetchType.LAZY  )
  private Set<Student> ListStudent;
  
  
@@ -47,7 +47,7 @@ public class Grupo implements Serializable {
  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//necesario para evitar error 500
  private Teacher teacher;
  
- @OneToMany(mappedBy = "groupe",fetch = FetchType.LAZY)
+ @OneToMany(mappedBy = "groupe",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
  private Set<Subject> subjects;
  
  

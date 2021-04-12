@@ -1,5 +1,7 @@
 package com.app.waylearn.Controllers;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.aspectj.bridge.Message;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.waylearn.Entities.Grupo;
+import com.app.waylearn.Entities.Student;
 import com.app.waylearn.Entities.Teacher;
 import com.app.waylearn.service.GroupService;
+import com.app.waylearn.service.StudentService;
 import com.app.waylearn.service.TeacherService;
 
 import payload.MessageResponse;
@@ -36,7 +41,8 @@ public class GroupController {
 	@Autowired
 	private GroupService groupServices;
 	
-	
+	@Autowired 
+	private StudentService studentService;
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody RequestGroup Regroup) throws RuntimeException{
@@ -59,7 +65,6 @@ public class GroupController {
 		}
 	}
 	
-	
 	@GetMapping("/{id}")  						
 	public ResponseEntity<?> getGrupo(@PathVariable(name = "id") Long id ) {
 		
@@ -77,16 +82,35 @@ public class GroupController {
 	@DeleteMapping("/delete/{id}")
  	public  ResponseEntity<?> DeleteGrupo(@PathVariable Long id){
 		try {
-			Boolean aux = groupServices.delete(id);
-			log.info(aux.toString());
-			if (aux) {
-				return ResponseEntity.ok(new MessageResponse("eliminado"));
-			}else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
-			}
+			if(groupServices.findById(id)  != null) {
+				 groupServices.delete(id);
+				 
+				 if(groupServices.findById(id)  == null) {
+					 return ResponseEntity.ok(new MessageResponse("eliminado"));
+				}
+			}return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
 		}catch (Exception e) {
 			 throw new RuntimeException(e);
 		}	
+	}
+	
+	
+	@PutMapping("/addStudent/{id}")
+	public ResponseEntity<?> AddStudetGrupo(@PathVariable(name =  "id") Long id, @RequestBody Map<String,Long>  idStudent){
+		Long studentId = idStudent.get("student");
+		log.info("llegando a agregar studiante "+studentId + " " + id );
+		
+		 Grupo grp  = groupServices.findById(id);
+		 Student student = studentService.findById(studentId);
+		 if(grp != null &&  student != null ) {
+			//grp.getListStudent().add(student); 
+			student.setGroup(grp);
+			studentService.save(student);
+			Grupo	grp1 = groupServices.findById(id);
+			return ResponseEntity.ok(grp1);
+		 }
+		 return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body(new MessageResponse("Error no se pudo agregar"));
+		
 	}
 	
 }

@@ -41,19 +41,12 @@ public class GroupServiceImp implements GroupService {
 	}
 	
 	@Override
-	public Boolean delete(Long id) throws Exception{
+	public void delete(Long id) throws Exception{
 		try {
 			groupRepository.deleteById(id);
 			Grupo grp = groupRepository.getOne(id);
 			
-			if(grp == null) {
-				log.info("null");
-				return true;
-			}else {
-				log.info(grp.getNumber());
-				return false;
-				
-			}
+		
 		}catch (Exception e) {
 		 throw new RuntimeException("Error al borrar");
 		}	

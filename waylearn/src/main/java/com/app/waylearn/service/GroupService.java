@@ -12,7 +12,7 @@ public interface GroupService {
 	
 	public List<Grupo> findAll();
 	
-	public Boolean delete(Long id) throws Exception;
+	public void delete(Long id) throws Exception;
 	
 	
 	

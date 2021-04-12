@@ -22,7 +22,6 @@ public class Teacher extends User  {
 	
 	@Column(name = "Group_teacher")
 	@OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
-	
 	private Set<Grupo> groups;
 	
 	
