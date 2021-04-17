@@ -1,5 +1,6 @@
 package com.app.waylearn.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,18 @@ public class StudentServiceImp implements StudentService{
 	@Override
 	public List<Student> findAll() {
 		return repoStudent.findAll();
+	}
+
+	@Override
+	public List<Student> FindByIdGroup(Long id) {
+		
+		List<Student> student =  repoStudent.StudentFindByIdGrupo(id);
+		List <Student> list = new ArrayList<>();
+ 		for (Student e : student ) {
+			list.add(new Student(e.getId(), e.getFirstName(), e.getLastName()));
+		}
+ 		return list;
+ 		
 	}
 
 }

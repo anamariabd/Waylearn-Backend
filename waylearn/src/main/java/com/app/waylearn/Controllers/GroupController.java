@@ -1,10 +1,9 @@
 package com.app.waylearn.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
-
-import org.aspectj.bridge.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,27 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.app.waylearn.Entities.Grupo;
 import com.app.waylearn.Entities.Student;
 import com.app.waylearn.Entities.Teacher;
 import com.app.waylearn.service.GroupService;
 import com.app.waylearn.service.StudentService;
 import com.app.waylearn.service.TeacherService;
-
 import payload.MessageResponse;
 import payload.RequestGroup;
 
 @RestController
-@RequestMapping(path = "/api/group")
+@RequestMapping(path = "/api/v1/group")
 public class GroupController {
 	private static Logger log = LoggerFactory.getLogger(GroupController.class);
 	@Autowired
 	private TeacherService teacherservice;
 	
+
 	@Autowired
 	private GroupService groupServices;
 	
@@ -104,13 +100,35 @@ public class GroupController {
 		 Student student = studentService.findById(studentId);
 		 if(grp != null &&  student != null ) {
 			//grp.getListStudent().add(student); 
-			student.setGroup(grp);
-			studentService.save(student);
-			Grupo	grp1 = groupServices.findById(id);
-			return ResponseEntity.ok(grp1);
+			if (grp.getListStudent().size() < grp.getAmount()) {
+				 student.setGroup(grp);
+					studentService.save(student);
+					Grupo	grp1 = groupServices.findById(id);
+					return ResponseEntity.ok(grp1);
+			}
+			
 		 }
 		 return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body(new MessageResponse("Error no se pudo agregar"));
 		
 	}
 	
-}
+	
+	@GetMapping("/teacher/{id}")
+	public ResponseEntity<List<Grupo>> findByTeacherId(@PathVariable(name ="id") Long id){
+		
+		List<Grupo> list = groupServices.findByTeacher(id);
+		List<Grupo> grp = new ArrayList<>();
+		for(Grupo g : list) {
+			grp.add(new Grupo(g.getId(),g.getNumber(),g.getAmount()));
+		}
+		return ResponseEntity.ok(grp);
+		
+	}
+	
+	@GetMapping("/student/{id}")
+	public ResponseEntity<?> ListStudents(@PathVariable(name = "id") Long id){
+		
+		List<Student> list = studentService.FindByIdGroup(id);
+		return ResponseEntity.ok(list);
+	}
+ }

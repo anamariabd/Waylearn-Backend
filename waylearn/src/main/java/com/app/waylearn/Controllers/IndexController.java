@@ -31,7 +31,7 @@ import payload.SignupRequest;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(path = "/api/auth")
+@RequestMapping(path = "/api/v1/auth")
 public class IndexController {
 
 	@Autowired

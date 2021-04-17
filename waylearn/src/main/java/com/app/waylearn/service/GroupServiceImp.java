@@ -1,5 +1,6 @@
 package com.app.waylearn.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,13 @@ public class GroupServiceImp implements GroupService {
 		}catch (Exception e) {
 		 throw new RuntimeException("Error al borrar");
 		}	
+	}
+
+	@Override
+	public List<Grupo> findByTeacher(Long id) {
+		
+		return groupRepository.findByIdTeacher(id);
+		
 	}
 		
 	

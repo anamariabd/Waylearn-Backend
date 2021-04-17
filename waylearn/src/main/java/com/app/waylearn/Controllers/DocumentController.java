@@ -31,7 +31,7 @@ import payload.FileData;
 import payload.MessageResponse;
 
 @RestController
-@RequestMapping(path = "api/upload")
+@RequestMapping(path = "api/v1/upload")
 public class DocumentController {
 	
 	static final Logger log = org.slf4j.LoggerFactory.getLogger(DocumentController.class);

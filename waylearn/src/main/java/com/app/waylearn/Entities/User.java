@@ -45,6 +45,30 @@ public class User implements Serializable{
 	private Role rol;
 
 	
+	public User() {
+		super();
+	}
+	
+	
+	public User(Long id, String firstName, String lastName, @NotNull @Min(8) String password,
+			@NotNull @Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$") String email) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.email = email;
+	}
+
+	
+	public User(Long id, @NotBlank String firstName, String lastName) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
+
 	public String getPassword() {
 		return password;
 	}
@@ -75,21 +99,7 @@ public class User implements Serializable{
 	}
 
 
-	public User() {
-		super();
-	}
 	
-	
-	public User(Long id, String firstName, String lastName, @NotNull @Min(8) String password,
-			@NotNull @Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$") String email) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.email = email;
-	}
-
 
 	@NotNull
 

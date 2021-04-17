@@ -15,21 +15,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity(name="STUDENTS")
 @PrimaryKeyJoinColumn(name="user_id")
+
 public class Student extends User{
 	
 	private String semestre;
 	
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "Student_Group")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Grupo group;
 	
 	public Student() {
 		super();
 	}
 	
-	
+	public Student(Long id, String firstName, String lastName) {
+		super(id,firstName,lastName);
+	}
 	
 	public Grupo getGroup() {
 		return group;

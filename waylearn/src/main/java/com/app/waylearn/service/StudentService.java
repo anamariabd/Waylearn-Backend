@@ -12,4 +12,6 @@ public interface StudentService {
 	public Student findById(Long id);
 	
 	public List<Student> findAll();
+	
+	public List<Student> FindByIdGroup(Long id);
 }

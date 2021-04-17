@@ -33,8 +33,14 @@ public class Grupo implements Serializable {
 @Column(name="Number_Group")
  private String number;
  
+
+
+ @Column(name="size")
+ private Integer amount;
  
- public Grupo() {
+
+
+public Grupo() {
 		super();
  }
  
@@ -51,17 +57,26 @@ public class Grupo implements Serializable {
  private Set<Subject> subjects;
  
  
- public Grupo(Long id, String number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects) {
+ public Grupo(Long id, String number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects,Integer amount) {
 		super();
 		this.id = id;
 		this.number = number;
 		ListStudent = listStudent;
 		this.teacher = teacher;
 		this.subjects = subjects;
+		this.amount = amount;
 	}
 
 
- public void setId(Long id) {
+ public Grupo(Long id, String number, Integer amount) {
+	super();
+	this.id = id;
+	this.number = number;
+	this.amount = amount;
+}
+
+
+public void setId(Long id) {
 		this.id = id;
 	}
 public Long getId() {
@@ -100,6 +115,14 @@ public void setSubjects(Set<Subject> subjects) {
 	this.subjects = subjects;
 }
 
+public Integer getAmount() {
+	return amount;
+}
+
+
+public void setAmount(Integer amount) {
+	this.amount = amount;
+}
 
 
 
