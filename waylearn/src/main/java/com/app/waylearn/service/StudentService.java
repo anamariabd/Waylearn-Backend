@@ -5,6 +5,7 @@ import java.util.List;
 import com.app.waylearn.Entities.Student;
 
 public interface StudentService {
+	
 	public Student save(Student student);
 	
 	public void delete(Student student);

@@ -25,8 +25,6 @@ import com.app.waylearn.WaylearnApplication;
 @Service
 public class DocumentServiceImp implements DocumentService {
 
-
-
 	private final Path rootFolder = Paths.get("src/main/resources/storage");
 
 	@Override

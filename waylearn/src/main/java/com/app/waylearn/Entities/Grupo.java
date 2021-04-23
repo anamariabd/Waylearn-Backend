@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -44,6 +46,24 @@ public Grupo() {
 		super();
  }
  
+public Grupo(Long id, String number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects,Integer amount) {
+	super();
+	this.id = id;
+	this.number = number;
+	ListStudent = listStudent;
+	this.teacher = teacher;
+	this.list_subject = subjects;
+	this.amount = amount;
+}
+
+
+public Grupo(Long id, String number, Integer amount) {
+super();
+this.id = id;
+this.number = number;
+this.amount = amount;
+}
+
  @OneToMany(cascade = CascadeType.ALL,mappedBy = "group" ,fetch = FetchType.LAZY  )
  private Set<Student> ListStudent;
  
@@ -52,28 +72,15 @@ public Grupo() {
  @JoinColumn(name = "group_teacher")
  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})//necesario para evitar error 500
  private Teacher teacher;
+ //========================================
+ @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+ @JoinTable(name = "Group_Subjects",
+ 	joinColumns = @JoinColumn(name = "Group_id", referencedColumnName = "ID"),
+ 	inverseJoinColumns = @JoinColumn(name = "Subject_id", referencedColumnName = "ID"))
+ private Set<Subject> list_subject;
+ //========================================
  
- @OneToMany(mappedBy = "groupe",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
- private Set<Subject> subjects;
- 
- 
- public Grupo(Long id, String number, Set<Student> listStudent, Teacher teacher, Set<Subject> subjects,Integer amount) {
-		super();
-		this.id = id;
-		this.number = number;
-		ListStudent = listStudent;
-		this.teacher = teacher;
-		this.subjects = subjects;
-		this.amount = amount;
-	}
 
-
- public Grupo(Long id, String number, Integer amount) {
-	super();
-	this.id = id;
-	this.number = number;
-	this.amount = amount;
-}
 
 
 public void setId(Long id) {
@@ -108,11 +115,11 @@ public void setTeacher(Teacher teacher) {
 }
 
 public Set<Subject> getSubjects() {
-	return subjects;
+	return list_subject;
 }
 
 public void setSubjects(Set<Subject> subjects) {
-	this.subjects = subjects;
+	this.list_subject = subjects;
 }
 
 public Integer getAmount() {

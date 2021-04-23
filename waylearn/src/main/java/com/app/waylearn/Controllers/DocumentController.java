@@ -108,6 +108,9 @@ public class DocumentController {
 		case "mp4":
 			auxiliar = MediaType.APPLICATION_OCTET_STREAM;
 			break;
+		case "png":
+			auxiliar = MediaType.IMAGE_PNG;
+			break;
 		default:
 			auxiliar  = MediaType.TEXT_PLAIN;
 			break;

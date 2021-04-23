@@ -32,7 +32,6 @@ public class Lesson {
 	
 	
 	@OneToMany(mappedBy = "lesson", cascade =CascadeType.ALL)
-	
 	private Set<Document> document;
 
 	public Lesson() {

@@ -1,5 +1,6 @@
 package com.app.waylearn.Entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -27,12 +29,18 @@ public class Subject {
 		super();
 	}
 
+	public Subject(String name) {
+		super();
+		this.name = name;
+	}
+
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Lesson> lessons;
 	
-	@ManyToOne
-	@JoinColumn(name = "Subject_group")
-	private Grupo groupe;
+	
+	@ManyToMany(mappedBy = "list_subject",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private Set<Grupo> groupe;
+
 	
 	public Set<Lesson> getLessons() {
 		return lessons;
@@ -51,13 +59,15 @@ public class Subject {
 	}
 
 
-	public Grupo getGroupe() {
+
+
+	public Set<Grupo> getGroupe() {
 		return groupe;
 	}
 
 
-	public void setGroupe(Grupo group) {
-		this.groupe = group;
+	public void setGroupe(Grupo groupe) {
+		this.groupe.add(groupe);
 	}
 
 

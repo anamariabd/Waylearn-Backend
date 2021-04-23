@@ -17,5 +17,8 @@ public interface GroupRepository extends JpaRepository<Grupo, Long>{
 	List<Grupo> findByIdTeacher(@Param("objId") Long id );
 	
 	
-	
+	@Query("select g"
+			+ " from Grupo g  where g.teacher.id = :objId")
+	List<?> findSubjectByIdTeacher(@Param("objId") Long idtacher);
 }
+
