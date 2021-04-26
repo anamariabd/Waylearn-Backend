@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.waylearn.Entities.Role;
 import com.app.waylearn.Entities.Student;
+import com.app.waylearn.service.MailSenderServiceImp;
 import com.app.waylearn.service.RoleService;
 import com.app.waylearn.service.StudentService;
 import com.app.waylearn.service.UserService;
@@ -39,6 +40,9 @@ public class StudentController {
 	
 	@Autowired
 	private RoleService repoRol;
+	
+	@Autowired 
+	private MailSenderServiceImp mailSenderService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -75,6 +79,7 @@ public class StudentController {
 		String aux = bCryptPasswordEncoder.encode(student.getPassword());
 		student.setPassword(aux);
 		serviceStudent.save(student);
+		mailSenderService.mailSend(student.getEmail(), "USUARIO REGISTRADO", "EL USUARIO "+student.getFirstName() +" " +student.getLastName() +" HA SIDO REGISTRADO COMO ESTUDIANTE EXITOSAMENTE.");
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		
 	}

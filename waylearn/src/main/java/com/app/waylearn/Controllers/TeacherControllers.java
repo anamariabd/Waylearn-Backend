@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.app.waylearn.Entities.Role;
 import com.app.waylearn.Entities.Teacher;
+import com.app.waylearn.service.MailSenderServiceImp;
 import com.app.waylearn.service.RoleService;
 import com.app.waylearn.service.TeacherService;
 import com.app.waylearn.service.UserService;
@@ -44,6 +45,8 @@ public class TeacherControllers {
 	@Autowired
 	private RoleService repoRol;
 	
+	@Autowired 
+	private MailSenderServiceImp mailSenderService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -88,7 +91,7 @@ public class TeacherControllers {
 		
 		teacher.setPassword(passwordEncoder);
 		servicesT.save(teacher);
-		
+		mailSenderService.mailSend(teacher.getEmail(), "USUARIO REGISTRADO", "EL USUARIO "+teacher.getFirstName() +" " +teacher.getLastName() +" HA SIDO REGISTRADO COMO PROFESOR EXITOSAMENTE.");
 		 return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		
 	}
