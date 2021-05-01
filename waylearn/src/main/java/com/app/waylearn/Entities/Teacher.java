@@ -25,10 +25,6 @@ public class Teacher extends User  {
 	private Set<Grupo> groups;
 	
 	
-	@Column(name ="CC",nullable = false, unique = true)
-	private Long cc;
-	
-	
 	public Teacher() {
 		super();
 	
@@ -43,16 +39,6 @@ public class Teacher extends User  {
 		this.groups = groups;
 	}
 
-
-	public Long getCc() {
-		return cc;
-	}
-
-	
-
-	public void setCc(Long cc) {
-		this.cc = cc;
-	}
 
 	
 

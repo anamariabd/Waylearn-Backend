@@ -3,6 +3,7 @@ package com.app.waylearn.Controllers;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,26 +62,48 @@ public class StudentController {
 		return serviceStudent.findAll();
 	}
 	
+	@GetMapping("/gets/null")
+	public List<Student> getStudentNull(){
+		return serviceStudent.FindByIdNullGroup();
+	}
+	
+	@GetMapping("/get/{email}")
+	public ResponseEntity<Student> getStudentByEmail(@PathVariable String  email) {
+		Student student = serviceStudent.findByEmail(email);
+		if(student == null) {
+			return ResponseEntity.badRequest().body(null);
+		}
+		return ResponseEntity.ok().body(student);
+	}
+	
 	@PostMapping("/register")
-	public ResponseEntity<?> createStudent(@Valid @RequestBody Student student) {
-		
-		if (userServices.existsByEmail(student.getEmail())) {
+	public ResponseEntity<?> createStudent(@Valid @RequestBody Student student) throws MessagingException {
+		try {
+			if (userServices.existsByEmail(student.getEmail())) {
+				return ResponseEntity
+						.badRequest()
+						.body(new MessageResponse("Error: Email is already in use!"));
+			}
+			Role rol = repoRol.findByRol("student");
+			if(rol == null) {
+				
+					new RuntimeException("Error: Role is not found.");
+				
+			}
+			student.setRol(rol);
+			String aux = bCryptPasswordEncoder.encode(student.getPassword());
+			student.setPassword(aux);
+			serviceStudent.save(student);
+			mailSenderService.mailRegister(student.getEmail(), "USUARIO REGISTRADO",student.getFirstName() +" " +student.getLastName() );
+			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		}catch (Exception e) {
+			e.getStackTrace();
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
-		}
-		Role rol = repoRol.findByRol("student");
-		if(rol == null) {
-			
-				new RuntimeException("Error: Role is not found.");
 			
 		}
-		student.setRol(rol);
-		String aux = bCryptPasswordEncoder.encode(student.getPassword());
-		student.setPassword(aux);
-		serviceStudent.save(student);
-		mailSenderService.mailSend(student.getEmail(), "USUARIO REGISTRADO", "EL USUARIO "+student.getFirstName() +" " +student.getLastName() +" HA SIDO REGISTRADO COMO ESTUDIANTE EXITOSAMENTE.");
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		
 		
 	}
 }

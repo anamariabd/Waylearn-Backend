@@ -66,9 +66,12 @@ public class GroupController {
 				group.setTeacher(teacher);
 				Set<Subject> subjects  = CreateSubject(teacher.getId());
 				group.setSubjects(subjects);
+				Grupo grp = groupServices.save(group);
+				return ResponseEntity.status(HttpStatus.CREATED).body(grp);
+			}else {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("No se encontró el docente"));
 			}
-			Grupo grp = groupServices.save(group);
-			return ResponseEntity.status(HttpStatus.CREATED).body(grp);
+			
 			
 		}catch (Exception e) {
 			throw new  RuntimeException("Error " + e);

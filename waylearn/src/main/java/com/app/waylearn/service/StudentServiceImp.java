@@ -18,7 +18,6 @@ public class StudentServiceImp implements StudentService{
 	@Autowired
 	private StudentRepository repoStudent;
 	
-
 	
 	@Override
 	public Student save(Student student) {
@@ -61,6 +60,26 @@ public class StudentServiceImp implements StudentService{
 			list.add(new Student(e.getId(), e.getFirstName(), e.getLastName()));
 		}
  		return list;
+ 		
+	}
+	
+	@Override
+	public Student findByEmail(String email){
+		Optional<Student> student = repoStudent.findByEmail(email);
+		if(!student.isPresent()) {
+			return null;
+		}
+		return student.get();
+	}
+
+	@Override
+	public List<Student> FindByIdNullGroup() {
+		List<Student> student =  repoStudent.studentFindByNullGroup();
+		/*List <Student> list = new ArrayList<>();
+ 		for (Student e : student ) {
+			list.add(new Student(e.getId(), e.getFirstName(), e.getLastName()));
+		}*/
+ 		return student;
  		
 	}
 

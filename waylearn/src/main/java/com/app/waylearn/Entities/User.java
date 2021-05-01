@@ -34,7 +34,9 @@ public class User implements Serializable{
 	
 	private String lastName;
 	
-
+	@Column(name ="CC",nullable = false, unique = true)
+	private Long cc;
+	
 	@NotNull
 	//@Min(value = 8)
 	private String password;
@@ -44,20 +46,24 @@ public class User implements Serializable{
 	@JoinColumn(name="ID_ROL")
 	private Role rol;
 
-	
+	@NotNull
+	@Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
+	private String email;
+
 	public User() {
 		super();
 	}
 	
 	
 	public User(Long id, String firstName, String lastName, @NotNull @Min(8) String password,
-			@NotNull @Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$") String email) {
+			@NotNull @Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$") String email, Long cc) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;
 		this.email = email;
+		this.cc = cc;
 	}
 
 	
@@ -98,13 +104,15 @@ public class User implements Serializable{
 		this.rol = rol;
 	}
 
+	public Long getCc() {
+		return cc;
+	}
 
-	
 
-	@NotNull
+	public void setCc(Long cc) {
+		this.cc = cc;
+	}
 
-	@Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
-	private String email;
 
 	public Long getId() {
 		return id;
