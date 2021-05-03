@@ -120,8 +120,8 @@ public class GroupController {
 			if (grp.getListStudent().size() < grp.getAmount()) {
 				 student.setGroup(grp);
 					studentService.save(student);
-					Grupo	grp1 = groupServices.findById(id);
-					return ResponseEntity.ok(grp1);
+					//Grupo	grp1 = groupServices.findById(id);
+					return ResponseEntity.ok(student);
 			}
 			
 		 }
