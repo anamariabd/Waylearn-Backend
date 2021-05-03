@@ -94,7 +94,7 @@ public class StudentController {
 			String aux = bCryptPasswordEncoder.encode(student.getPassword());
 			student.setPassword(aux);
 			serviceStudent.save(student);
-			mailSenderService.mailRegister(student.getEmail(), "USUARIO REGISTRADO",student.getFirstName() +" " +student.getLastName() );
+			mailSenderService.mailRegister(student.getEmail(), "USUARIO REGISTRADO",student.getEmail(),student.getFirstName() +" " +student.getLastName() );
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}catch (Exception e) {
 			e.getStackTrace();

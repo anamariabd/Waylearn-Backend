@@ -44,7 +44,7 @@ public class MailSenderServiceImp  {
 		
 	}
 	@Async
-	public void mailRegister(String to, String subject, String content) throws MessagingException {
+	public void mailRegister(String to, String subject, String email,String name) throws MessagingException {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
@@ -58,15 +58,27 @@ public class MailSenderServiceImp  {
 			helper.setText("<!DOCTYPE html>\r\n"
 					+ "<html>"
 					+ "<head>"
-					+ 	"<meta charset=\"UTF-8\">"
+					+ "<meta charset=\"UTF-8\">"
+					+"<style>"
+					+ 		"p { line-height:1.5; text-align: justify;}"
+					+ 		"div { width:90%; }"
+					+ "</style>"
 					+ "</head>"
-					
 					+ "<body>"
-					+ "  <div><img alt='Logo' src='src/main/resources/static/img/log.jpg'>"
+					+ "<div>"
+					+ "<img alt='Logo' src='src/main/resources/static/img/logo.png'>"
 					+ "<br>"
-						
-					+ "  <p> Apreciado usuario <strong>"+ content +"</strong> su registro ha sido exitoso, gracias por registrarse a Waylearn</p>"
-					+ "  </div>"
+					+ "  <p>Estimado(a), <strong>"+ name +"</strong>:</p>"
+					+"<br>"
+					+ "<p>Oficialmente haces parte de la familia WayLearn . Queremos compartirte indicaciones generales y notificarte la culminacion de la activación de tu cuenta.</p>"
+					+ "<p><strong>USUARIO</strong>:</p>"
+					+ "<p>El usuario para acceder a los servicios de WayLearn y tu correo electrónico registrado es: <b>"+email+"</b></p><br>"
+					+ "<p><strong>PLATAFORMA DE APRENDIZAJE</strong>:</p>"
+					+ "<p>La plataforma ya se encuentra activa para ingreso, en nuestra seccion de instrucciones se encuentran las indicaciones necesarias para acceder a los cursos.</p>"
+				    + "<p>Te recomendamos seguirnos por nuestras redes sociales donde encontrarás información de interés.</p>"
+					+ "<p>¡Bienvenido a esta experiencia de aprendizaje!</p>"
+					+ "	<p>	<i>Este mensaje es generado de forma automática por una aplicación, en caso de contestarlo no será respondido.</i></p>"
+					+ " </div>"
 					+ "</body>"
 					+ "</html>", true);
 			 //helper.addAttachment("myLogo", file);
