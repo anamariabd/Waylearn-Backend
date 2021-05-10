@@ -62,8 +62,6 @@ public class TeacherControllers {
 			
 			return	ResponseEntity.ok(teacher);
 		
-		
-		
 	}
 	
 	@GetMapping("/gets")

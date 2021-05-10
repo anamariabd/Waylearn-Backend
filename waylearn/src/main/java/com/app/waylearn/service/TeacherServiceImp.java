@@ -17,8 +17,6 @@ public class TeacherServiceImp implements TeacherService{
 	@Autowired
 	private TeacherRepository repoTeacher;
 	
-
-	
 	@Override
 	public Teacher save(Teacher teacher) {
 		return repoTeacher.save(teacher);

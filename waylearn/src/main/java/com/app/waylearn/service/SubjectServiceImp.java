@@ -17,14 +17,11 @@ import com.app.waylearn.Repositories.SubjectRepository;
 
 @Service
 public class SubjectServiceImp implements SubjectService {
+	
 	private static Logger log = LoggerFactory.getLogger(SubjectServiceImp.class);
 
 	@Autowired
 	private SubjectRepository subjectRepository;
-	
-	
-		
-	
 	
 	@Override
 	public Subject save(Subject subject) {

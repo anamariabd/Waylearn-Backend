@@ -15,31 +15,50 @@ import javax.management.RuntimeErrorException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.waylearn.WaylearnApplication;
+import com.app.waylearn.Controllers.SubjectController;
+import com.app.waylearn.Entities.Document;
+import com.app.waylearn.Repositories.DocumentRepository;
 
 @Service
 public class DocumentServiceImp implements DocumentService {
 
+	static final Logger log = org.slf4j.LoggerFactory.getLogger(DocumentServiceImp.class);
+	@Autowired
+	private DocumentRepository documentRepository;
+	
 	private final Path rootFolder = Paths.get("src/main/resources/storage");
 
 	@Override
-	public void save(MultipartFile file) throws Exception {
-		Date fecha = new Date();
-		String name = Long.toString(fecha.getTime());
+	public boolean save(MultipartFile file) throws Exception {
+		try {
+		Document document = new Document();
 		String fileName = file.getOriginalFilename();
-		String ext = "";
-		
 		int i = fileName.lastIndexOf('.');
+		document.setName(fileName.substring(0, i));
+		if (exist(document.getName())){
+			log.info("ya existe");
+			return false;
+		}
+		Date fecha = new Date();
+		document.setHash(Long.toString(fecha.getTime()));
+		document.setMimeType(file.getContentType());
+		document.setExt(fileName.substring(i));
 		
-		ext = fileName.substring(i);
 		
-		Files.copy(file.getInputStream(), this.rootFolder.resolve(name+ext) );
-		
+		log.info(" Hash: "+document.getHash() +" Extension: "+ document.getExt() +" Nombre del archivo: " + document.getName()+" MimeType: "+ document.getMimeType() );
+		Document doc = documentRepository.save(document);
+		Files.copy(file.getInputStream(), this.rootFolder.resolve(doc.getHash()+doc.getExt()));
+		return true;
+		}catch (Exception e) {
+			throw new RuntimeException(e.getCause());
+		}
 		
 	}
 
@@ -58,8 +77,20 @@ public class DocumentServiceImp implements DocumentService {
 			throw new Exception("Error: " + e.getMessage());
 		}
 	}
-
 	
+	@Override
+	public boolean exist(String name) {
+		try {
+			Boolean doc =  documentRepository.existByName(name);
+			if(doc == null || doc.booleanValue() == false ) {
+				return false;
+			}
+			return true;
+		}catch(Exception e) {
+			throw new RuntimeException(e.getCause());
+		}
+		
+	}
 	
 	@Override
 	public Stream<Path> loadAll(){
@@ -70,6 +101,18 @@ public class DocumentServiceImp implements DocumentService {
 		}catch (RuntimeException | IOException e) {
 			throw new RuntimeException("No se pueden cargar los archivos");
 		}
+	}
+
+	@Override
+	public Document data(String name) {
+		try {
+			Document document =  documentRepository.findByName(name);
+			return document != null ? document: null;
+			
+		}catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
     
 }

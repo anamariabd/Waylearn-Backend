@@ -1,5 +1,6 @@
 package com.app.waylearn.Entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,8 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.app.waylearn.Entities.Topic;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Lesson {
  
  
@@ -26,16 +32,63 @@ public class Lesson {
 	private String tema;
 
 	
-	@ManyToOne
-	@JoinColumn(name = "lessons_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lessons_id", referencedColumnName = "id")
 	private Subject subject;
 	
 	
-	@OneToMany(mappedBy = "lesson", cascade =CascadeType.ALL)
-	private Set<Document> document;
+	@OneToMany(mappedBy = "lesson_doc", cascade = CascadeType.ALL)
+	private Set<Document> document = new HashSet<>();
 
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lessons")
+	private Topic topic;  
+	
+	@OneToOne(mappedBy = "lesson_eval",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private Evaluation evaluation;
+	
 	public Lesson() {
 		super();
+	}
+
+
+	public Subject getSubject() {
+		return subject;
+	}
+
+
+	public Set<Document> getDocument() {
+		return document;
+	}
+
+
+	public Topic getTopic() {
+		return topic;
+	}
+
+
+	public Evaluation getEvaluation() {
+		return evaluation;
+	}
+
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+
+
+	public void setDocument(Set<Document> document) {
+		this.document = document;
+	}
+
+
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
+
+	public void setEvaluation(Evaluation evaluation) {
+		this.evaluation = evaluation;
 	}
 
 

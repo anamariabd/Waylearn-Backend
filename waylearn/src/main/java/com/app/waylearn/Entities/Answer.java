@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Answer {
@@ -14,10 +17,18 @@ public class Answer {
 	
 	private String response;
 
-	public Answer(Long id, String response) {
+	private String state;
+	
+	@ManyToOne
+	@JoinColumn(name ="answer_question")
+	private Question questions;
+	
+	
+	public Answer(Long id, String response, String state) {
 		super();
 		this.id = id;
 		this.response = response;
+		this.state = state;
 	}
 	
 	public Answer() {
