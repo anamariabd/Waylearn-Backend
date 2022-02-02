@@ -18,7 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
-
+*/bin
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### carpeta de archivos ###
+.uploads/

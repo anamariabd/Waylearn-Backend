@@ -2,6 +2,9 @@ package com.app.waylearn.Entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
+import java.util.Set;
+
 import javax.persistence.*;
 import javax.persistence.Id;
 
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 public class Teacher extends User {
 	
 	
+	@OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+	private Set<Group> groups;
 	
 	
 	@Column(nullable = false, unique = true)
@@ -19,6 +24,16 @@ public class Teacher extends User {
 	
 	
 	
+	public Set<Group> getGroups() {
+		return groups;
+	}
+
+
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
+	}
+
+
 	public Teacher() {
 		super();
 	

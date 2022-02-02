@@ -2,6 +2,7 @@ package com.app.waylearn.Entities;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +12,13 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 
 
 
 @Entity(name="USER")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email") )
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 	@Id 
@@ -58,7 +61,7 @@ public class User {
 	}
 
 
-	public Role getRol() {
+	public Role getRole() {
 		return rol;
 	}
 
@@ -85,6 +88,7 @@ public class User {
 
 
 	@NotNull
+
 	@Email(regexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
 	private String email;
 
